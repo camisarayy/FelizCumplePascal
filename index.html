@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="cumpleee-removebg-preview.png">
+
+<title> Pascal 💖</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:'Fredoka', sans-serif !important; 
+overflow-x:hidden;
+min-height: 100vh;
+color:white ;
+text-align:center;
+
+background:
+linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), 
+url("fondo.jpeg");
+
+background-size:cover; 
+background-position:center; 
+background-repeat:no-repeat; 
+background-attachment:fixed; 
+}
+
+.start-screen{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:
+linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+url("fondo.jpeg");
+
+background-size:cover;
+background-position:center;
+
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+z-index:999;
+}
+
+.welcome-title{
+font-size:55px;
+margin-bottom:20px;
+color:#ffe26f;
+text-shadow:0 0 20px #e22e0f;
+}
+
+.start-img{
+width:260px;
+animation:floatImage 2s infinite ease-in-out;
+}
+
+.welcome-text{
+font-size:24px;
+margin-top:20px;
+color:#fff;
+}
+
+.start-btn{
+margin-top:30px;
+padding:18px 45px;
+font-size:26px;
+border:none;
+border-radius:20px;
+cursor:pointer;
+
+background:linear-gradient(45deg,#db95c2,#d467a5, rgb(121, 34, 108));
+
+color:white;
+font-weight:bold;
+
+box-shadow:0 0 20px rgba(255,255,255,0.5);
+
+transition:0.3s;
+}
+
+.start-btn:hover{
+transform:scale(1.08);
+}
+
+
+
+/* FONDO */
+.stars{
+position:fixed;
+width:100%;
+height:100%;
+overflow:hidden;
+top:0;
+left:0;
+z-index:-1;
+}
+
+.star{
+position:absolute;
+width:4px;
+height:4px;
+background:white;
+border-radius:50%;
+animation:float 8s linear infinite;
+opacity:0.7;
+}
+
+@keyframes float{
+from{
+transform:translateY(100vh);
+}
+to{
+transform:translateY(-10vh);
+}
+}
+
+/* GLOBOS */
+.balloon{
+position:fixed;
+bottom:-150px;
+width:130px;
+animation:subir 12s linear infinite;
+opacity:0.9;
+z-index:0;
+}
+
+@keyframes subir{
+from{
+transform:translateY(0);
+}
+to{
+transform:translateY(-130vh);
+}
+}
+
+.container{
+position:relative;
+z-index:2;
+padding:20px;
+display: none;
+}
+
+h1{
+font-size:42px;
+margin-top:20px;
+text-shadow:0 0 15px #ff90d2;
+}
+
+.sub{
+font-size:20px;
+margin-top:10px;
+color:#ffd9f0;
+}
+
+.level-title{
+margin-top:35px;
+font-size:28px;
+color:#ffe26f;
+}
+
+/* JUEGO */
+.memory-game{
+margin:30px auto;
+display:grid;
+grid-template-columns:repeat(4,100px);
+gap:15px;
+justify-content:center;
+}
+
+.card{
+width:100px;
+height:100px;
+cursor:pointer;
+position:relative;
+transform-style:preserve-3d;
+transition:0.5s;
+}
+
+.card.flip{
+transform:rotateY(180deg);
+}
+
+.front,
+.back{
+position:absolute;
+width:100%;
+height:100%;
+border-radius:20px;
+backface-visibility:hidden;
+display:flex;
+align-items:center;
+justify-content:center;
+overflow:hidden;
+}
+
+.front{
+background:rgba(255,255,255,0.15);
+backdrop-filter:blur(8px);
+border:2px solid rgba(255,255,255,0.15);
+font-size:40px;
+}
+
+.back{
+transform:rotateY(180deg);
+background:transparent;
+}
+
+.back img{
+width:100%;
+height:100%;
+object-fit:cover;
+display: block;
+}
+
+/* MENSAJES */
+.message{
+display:none;
+margin-top:30px;
+animation:fade 1s ease;
+}
+
+.box{
+background:rgba(255,255,255,0.12);
+backdrop-filter:blur(10px);
+padding:25px;
+border-radius:25px;
+max-width:500px;
+margin:auto;
+border:2px solid rgba(255,255,255,0.15);
+box-shadow:0 0 25px rgba(255,255,255,0.2);
+}
+
+.box h2{
+font-size:35px;
+margin-bottom:10px;
+color:#ffe26f;
+}
+
+.box p{
+font-size:22px;
+line-height:1.6;
+}
+
+/* CARTA */
+.letter{
+display:none;
+margin:60px auto;
+max-width:700px;
+background:rgba(255,255,255,0.12);
+backdrop-filter:blur(10px);
+padding:35px;
+border-radius:30px;
+border:2px solid rgba(255,255,255,0.15);
+box-shadow:0 0 30px rgba(255,255,255,0.2);
+animation:fade 1s ease;
+
+
+}
+
+.final-image{
+    width:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin-top:20px;
+    text-align: center;
+    
+}
+
+
+.final{
+    width:320px;
+    max-width:100%;
+    height:auto;
+    display:block;
+    margin: auto;}
+
+.letter h2{
+font-size:38px;
+margin-bottom:20px;
+color:#ffd86f;
+}
+
+.letter p{
+font-size:22px;
+line-height:1.8;
+}
+
+.hearts{
+margin-top:20px;
+font-size:32px;
+animation:heart 1s infinite;
+}
+
+@keyframes heart{
+0%{transform:scale(1);}
+50%{transform:scale(1.2);}
+100%{transform:scale(1);}
+}
+
+@keyframes fade{
+from{
+opacity:0;
+transform:translateY(20px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+
+@keyframes floatImage{ 0%{ transform:translateY(0px); }
+ 50%{ transform:translateY(-6px); } 
+100%{ transform:translateY(0px); } }
+@media(max-width:600px){
+
+.memory-game{
+grid-template-columns:repeat(4,75px);
+gap:10px;
+}
+
+.card{
+width:75px;
+height:75px;
+}
+
+h1{
+font-size:32px;
+}
+
+.letter p{
+font-size:18px;
+}
+}
+</style>
+</head>
+
+<body>
+
+<div class="stars"></div>
+
+<!-- GLOBOS -->
+<img class="balloon" style="left:5%; animation-delay:0s;" src="cumpleee-removebg-preview.png">
+<img class="balloon" style="left:20%; animation-delay:2s;" src="hadaa-removebg-preview.png">
+<img class="balloon" style="left:45%; animation-delay:5s;" src="prin-removebg-preview.png">
+<img class="balloon" style="left:70%; animation-delay:1s;" src="hadis-removebg-preview.png">
+<img class="balloon" style="left:90%; animation-delay:4s;" src="sirena-removebg-preview.png">
+
+<div class="start-screen" id="startScreen">
+
+<h1 class="welcome-title">
+🎈 Bienvenida 🎈
+</h1>
+
+<img src="jugando.jpeg" class="start-img">
+
+<p class="welcome-text">
+    Presiona COMENZAR
+</p>
+
+<button class="start-btn" onclick="startGame()">
+COMENZAR
+</button>
+
+</div>
+
+<div class="container">
+
+<h1>🎮 Juego de Memoria 🎮</h1>
+<p class="sub">Completa los 2 niveles</p>
+
+<h2 class="level-title" id="levelText">⭐ Nivel 1</h2>
+
+<div class="memory-game" id="game"></div>
+
+<!-- MENSAJE -->
+<div class="message" id="message">
+<div class="box">
+<h2>🎉 ¡Nivel completado! 🎉</h2>
+<p id="messageText"></p>
+</div>
+</div>
+
+<!-- CARTA -->
+<div class="letter" id="letter">
+
+<h2>💌 Querida Pascal 💌</h2>
+
+<p>
+ Hoy nos toco trabajar y no pudimos estar presentes,
+    <br></br>
+ Esperamos que la hayas pasado super bien 💗
+    <br></br>
+ 
+Este juego fue echo con mucho cariño y 🎈
+    <br></br>
+Esperamos que lo disfrutes 🎈
+    <br></br>
+Que te saque una sonrisa y
+    <br></br>
+Recuerdes lo mucho que te queremos ✨💗
+    <br></br>
+
+Atte: Tía Camila y Tío Jonatan💗💝🎀
+</p>
+
+<div class="final-imagen">
+<img src="tequeremos.jpeg" class="final">
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+/* ESTRELLAS */
+const starsContainer = document.querySelector(".stars");
+
+for(let i=0;i<60;i++){
+
+const star = document.createElement("div");
+star.classList.add("star");
+
+star.style.left = Math.random()*100+"%";
+star.style.top = Math.random()*100+"%";
+star.style.animationDuration = (Math.random()*5+5)+"s";
+
+starsContainer.appendChild(star);
+}
+
+/* NIVELES */
+const levels = [
+
+[
+"estrellita.jpeg",
+"chivito.jpeg",
+"bici.jpeg",
+"jugando.jpeg"
+],
+
+[
+"pastel.jpeg",
+"princesa.jpeg",
+"jira.jpeg",
+"gatito.jpeg"
+]
+
+];
+
+let currentLevel = 0;
+
+const game = document.getElementById("game");
+
+function startLevel(){
+
+game.innerHTML="";
+
+let cardsArray = [...levels[currentLevel], ...levels[currentLevel]];
+
+cardsArray.sort(()=>0.5 - Math.random());
+
+let firstCard = null;
+let secondCard = null;
+let lock = false;
+let matches = 0;
+
+cardsArray.forEach(image => {
+
+const card = document.createElement("div");
+card.classList.add("card");
+
+card.innerHTML = `
+<div class="front">❓</div>
+
+<div class="back">
+<img src="${image}">
+</div>
+`;
+
+card.addEventListener("click",()=>{
+
+if(lock) return;
+if(card === firstCard) return;
+
+card.classList.add("flip");
+
+if(!firstCard){
+
+firstCard = card;
+return;
+}
+
+secondCard = card;
+
+const firstImg =
+firstCard.querySelector("img").src;
+
+const secondImg =
+secondCard.querySelector("img").src;
+
+if(firstImg === secondImg){
+
+matches++;
+
+firstCard = null;
+secondCard = null;
+
+if(matches === 4){
+
+if(currentLevel === 0){
+
+document.getElementById("message")
+.style.display="block";
+
+document.getElementById("messageText")
+.innerHTML="Pasaste el Nivel 1 🌟<br>Prepárate para el Nivel 2 💗";
+
+setTimeout(()=>{
+
+document.getElementById("message")
+.style.display="none";
+
+currentLevel++;
+
+document.getElementById("levelText")
+.innerHTML="🔥 Nivel 2";
+
+startLevel();
+
+},2500);
+
+}else{
+
+document.getElementById("message")
+.style.display="block";
+
+document.getElementById("messageText")
+.innerHTML="¡Terminaste todos los niveles! 🎉";
+
+setTimeout(()=>{
+
+document.getElementById("message")
+.style.display="none";
+
+document.getElementById("levelText")
+.style.display="none";
+
+document.getElementById("game")
+.style.display="none";
+
+document.getElementById("letter")
+.style.display="block";
+
+window.scrollTo({
+top:document.body.scrollHeight,
+behavior:"smooth"
+});
+
+},2500);
+}
+}
+
+}else{
+
+lock = true;
+
+setTimeout(()=>{
+
+firstCard.classList.remove("flip");
+secondCard.classList.remove("flip");
+
+firstCard = null;
+secondCard = null;
+
+lock = false;
+
+},900);
+}
+
+});
+
+game.appendChild(card);
+
+});
+
+}
+
+
+
+function startGame(){
+
+document.getElementById("startScreen")
+.style.display="none";
+
+document.querySelector(".container")
+.style.display="block";
+
+startLevel();
+
+}
+
+document.querySelector(".container")
+.style.display="none";
+
+</script>
+
+
+</script>
+
+</body>
+</html>
